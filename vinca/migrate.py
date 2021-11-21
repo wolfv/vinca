@@ -61,7 +61,7 @@ def create_migration_instructions(arch, packages_to_migrate, packages_ignore_mig
         p = packages[pkey]
 
         for d in p.get("depends", []):
-            if d.split()[0] in packages_to_migrate and d.split()[0] not in packages_ignore_migrate:
+            if d.split()[0] in packages_to_migrate and to_ros_name(distro, pname) not in packages_ignore_migrate:
                 # print(f"need to migrate {pkey}")
                 to_migrate.add(pname)
 
