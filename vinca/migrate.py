@@ -44,6 +44,8 @@ def create_migration_instructions(arch, packages_to_migrate, packages_ignore_mig
 
     global distro_version, ros_prefix
     distro_version = vinca_conf["ros_distro"]
+    distro = Distro(distro_version)
+
     ros_prefix = f"ros-{distro_version}"
 
     repodata = get_repodata(url, arch)
@@ -104,7 +106,6 @@ def create_migration_instructions(arch, packages_to_migrate, packages_ignore_mig
 
     print("Sorted to migrate: ", to_migrate)
 
-    distro = Distro(distro_version)
     # import IPython; IPython.embed()
 
     ros_names = []
