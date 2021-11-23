@@ -68,7 +68,7 @@ def create_migration_instructions(arch, packages_to_migrate, packages_ignore_mig
                 to_migrate.add(pname)
 
     for pname in packages_force_migrate:
-        to_migrate.add(pname)
+        to_migrate.add(ros_prefix + "-" + pname.replace("_", "-"))
 
     latest = {}
     for pkg in ros_pkgs:
