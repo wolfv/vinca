@@ -368,7 +368,7 @@ def generate_output(pkg_shortname, vinca_conf, distro, version, all_pkgs=None):
 
     # fixup problems with udev (which is mapped to libusb):
     if (
-        "libusb" in output["requirements"]["host"]
+        any(hostdep.startswith("libusb") for hostdep in output["requirements"]["host"])
         or "ros-" + distro.name + "-lusb" in output["requirements"]["host"]
     ):
         output["requirements"]["build"] += [
