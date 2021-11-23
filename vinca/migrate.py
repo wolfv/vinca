@@ -35,7 +35,7 @@ def to_ros_name(distro, pkg_name):
         raise RuntimeError(f"Couldnt convert {pkg_name} to ROS pkg name")
 
 
-def create_migration_instructions(arch, packages_to_migrate, packages_ignore_migrate, trigger_branch):
+def create_migration_instructions(arch, packages_to_migrate, packages_ignore_migrate, packages_force_migrate, trigger_branch):
     url = "https://conda.anaconda.org/robostack/"
 
     yaml = ruamel.yaml.YAML()
@@ -66,6 +66,9 @@ def create_migration_instructions(arch, packages_to_migrate, packages_ignore_mig
             if d.split()[0] in packages_to_migrate and to_ros_name(distro, pname) not in packages_ignore_migrate:
                 # print(f"need to migrate {pkey}")
                 to_migrate.add(pname)
+
+    for pname in packages_force_migrate:
+        to_migrate.add(pname)
 
     latest = {}
     for pkg in ros_pkgs:
@@ -197,5 +200,5 @@ def main():
         migration = yaml.safe_load(fi)
         print(migration)
         create_migration_instructions(
-            args.platform, migration.get("packages", []), migration.get("packages_ignore", []), args.trigger_branch
+            args.platform, migration.get("packages", []), migration.get("packages_ignore", []), migration.get("packages_force_migrate", []), args.trigger_branch
         )
